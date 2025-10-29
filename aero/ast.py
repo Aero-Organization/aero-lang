@@ -1,6 +1,17 @@
 class ASTNode:
     pass
 
+class Program(ASTNode):
+    """Top-level container for statements"""
+    def __init__(self, statements):
+        self.statements = statements
+
+class Assign(ASTNode):
+    """Variable assignment: x = 5"""
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
 class Number(ASTNode):
     def __init__(self, value):
         self.value = value

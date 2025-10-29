@@ -1,4 +1,3 @@
-import re
 from enum import Enum
 
 class TokenType(Enum):
@@ -9,6 +8,9 @@ class TokenType(Enum):
     LPAREN = "LPAREN"
     RPAREN = "RPAREN"
     STRING = "STRING"
+    COMMA = "COMMA"
+    ASSIGN = "ASSIGN"
+    SEMICOLON = "SEMICOLON"
     EOF = "EOF"
 
 class Token:
@@ -47,8 +49,22 @@ class Lexer:
             elif char == ')':
                 tokens.append(Token(TokenType.RPAREN, ')'))
                 self.pos += 1
+            elif char == ',':
+                tokens.append(Token(TokenType.COMMA, ','))
+                self.pos += 1
+            elif char == '=':
+                tokens.append(Token(TokenType.ASSIGN, '='))
+                self.pos += 1
+            elif char == ';':
+                tokens.append(Token(TokenType.SEMICOLON, ';'))
+                self.pos += 1
             elif char == '"':
                 tokens.append(self._read_string())
+            elif char == '/':
+                if self.pos + 1 < len(self.source) and self.source[self.pos + 1] == '/':
+                    # Skip to end of line
+                    while self.pos < len(self.source) and self.source[self.pos] != '\n':
+                        self.pos += 1
             else:
                 raise SyntaxError(f"Unexpected character: {char} at position {self.pos}")
         tokens.append(Token(TokenType.EOF, None))
