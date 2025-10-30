@@ -2,12 +2,10 @@ class ASTNode:
     pass
 
 class Program(ASTNode):
-    """Top-level container for statements"""
     def __init__(self, statements):
         self.statements = statements
 
 class Assign(ASTNode):
-    """Variable assignment: x = 5"""
     def __init__(self, name, value):
         self.name = name
         self.value = value
@@ -17,6 +15,10 @@ class Number(ASTNode):
         self.value = value
 
 class String(ASTNode):
+    def __init__(self, value):
+        self.value = value
+
+class Bool(ASTNode):
     def __init__(self, value):
         self.value = value
 
@@ -34,3 +36,18 @@ class Call(ASTNode):
     def __init__(self, func, args):
         self.func = func
         self.args = args
+
+class Block(ASTNode):
+    def __init__(self, statements):
+        self.statements = statements
+
+class If(ASTNode):
+    def __init__(self, condition, then_branch, else_branch=None):
+        self.condition = condition
+        self.then_branch = then_branch
+        self.else_branch = else_branch
+
+class While(ASTNode):
+    def __init__(self, condition, body):
+        self.condition = condition
+        self.body = body
